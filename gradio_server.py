@@ -180,7 +180,7 @@ def load_models(i2v,lora_preselected, lora_dir, lora_preseleted_multiplier ):
     pipe = hunyuan_video_sampler.pipeline
     pipe.transformer.any_compilation = len(compile)>0
 
-    kwargs = None
+    kwargs = {}
     if profile == 2 or profile == 4:
         kwargs = {"budgets": { "transformer" : 100, "*" : 3000 }} 
 
