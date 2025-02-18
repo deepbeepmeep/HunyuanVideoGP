@@ -381,6 +381,7 @@ def select_video(state , event_data: gr.EventData):
 
 def generate_video(
     prompt,
+    negative_prompt,
     resolution,
     video_length,
     seed,
@@ -461,7 +462,6 @@ def generate_video(
     seed = None if seed == -1 else seed
     width, height = resolution.split("x")
     width, height = int(width), int(height)
-    negative_prompt = "" # not applicable in the inference
 
     if "abort" in state:
         del state["abort"]
@@ -718,6 +718,7 @@ def create_demo():
                 image_to_continue = gr.Image(label= "Image as a starting point for a new video", visible=use_image2video)
 
                 prompt = gr.Textbox(label="Prompts (multiple prompts separated by carriage returns will generate multiple videos)", value="A large orange octopus is seen resting on the bottom of the ocean floor, blending in with the sandy and rocky terrain. Its tentacles are spread out around its body, and its eyes are closed. The octopus is unaware of a king crab that is crawling towards it from behind a rock, its claws raised and ready to attack. The crab is brown and spiny, with long legs and antennae. The scene is captured from a wide angle, showing the vastness and depth of the ocean. The water is clear and blue, with rays of sunlight filtering through. The shot is sharp and crisp, with a high dynamic range. The octopus and the crab are in focus, while the background is slightly blurred, creating a depth of field effect.", lines=3)
+                negative_prompt = gr.Textbox(label="Negative Prompt", value=NEGATIVE_PROMPT, lines=3)
                 with gr.Row():
                     resolution = gr.Dropdown(
                         choices=[
@@ -803,6 +804,7 @@ def create_demo():
             fn=generate_video,
             inputs=[
                 prompt,
+                negative_prompt,
                 resolution,
                 video_length,
                 seed,
